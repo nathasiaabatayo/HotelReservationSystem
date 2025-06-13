@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Add Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script>
+    // Force redirect to auth.html if not from auth page
+    if (!sessionStorage.getItem('fromAuth')) {
+      window.location.replace('auth.html');
+    }
+    sessionStorage.removeItem('fromAuth');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hotel Reservation System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    function showReservationForm(roomType) {
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('reservation-page').style.display = 'block';
+      if(roomType) {
+        document.getElementById('roomtype-reserve').value = roomType;
+        setRoomPrice(roomType);
+      } else {
+        setRoomPrice("");
+      }
+      window.scrollTo(0,0);
+    }
+    function showHome() {
+      document.getElementById('main-content').style.display = 'block';
+      document.getElementById('reservation-page').style.display = 'none';
+    }
+
+    // Helper to set the price field
+    function setRoomPrice(roomType) {
+      const priceField = document.getElementById('price-reserve');
+      let price = "";
+      switch(roomType) {
+        case "single":
+          price = "₱900/Night";
+          break;
+        case "queen":
+          price = "₱1500/Night";
+          break;
+        case "double":
+          price = "₱2000/Night";
+          break;
+        default:
+          price = "";
+      }
+      priceField.value = price;
+      document.getElementById('price-box-reserve').textContent = price;
+    }
+
+    // Log out function
+    function logout() {
+      if (window.firebaseAuth && window.firebaseAuth.signOut) {
+        window.firebaseAuth.signOut().then(() => {
+          window.location.href = "auth.html";
+        });
+      } else {
+        window.location.href = "auth.html";
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('nav-home').addEventListener('click', function(e) {
+        e.preventDefault(); showHome();
+      });
+      document.getElementById('nav-reserve').addEventListener('click', function(e) {
+        e.preventDefault(); showReservationForm();
+      });
+      document.querySelectorAll('.reserve-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          showReservationForm(this.dataset.roomtype);
+        });
+      });
+      document.getElementById('roomtype-reserve').addEventListener('change', function(e) {
+        setRoomPrice(this.value);
+      });
+    });
+  </script>
+</head>
+<body>
+  <nav>
+    <span class="logo"></span>
+    <ul>
+      <li id="nav-home">Room</li>
+      <li id="nav-reserve">Reserve</li>
+      <li id="nav-logout"><button onclick="logout()" style="background:none;border:none;color:inherit;font:inherit;cursor:pointer;">Log Out</button></li>
+    </ul>
+  </nav>
+  <!-- Home/main content -->
+  <div class="container" id="main-content">
+    <div class="rooms-title">Easy &amp; Stay</div>
+    <div class="rooms-subtitle">Room &amp; Suites</div>
+    <div class="rooms-divider"></div>
+    <div class="rooms-list">
+      <div class="room-card">
+        <div class="price-badge">₱900/Night</div>
+        <!-- Changed to local file -->
+        <img class="room-image" src="img/Singlebedroom.jpg" alt="Single Bed Room">
+        <div class="room-details">
+          <div class="room-title">Single Bed Room</div>
+          <div class="room-info">King Bed &bull; 25 sqm &bull; Free Wi-Fi</div>
+          <a href="#" class="reserve-btn" data-roomtype="single">Book Now</a>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="price-badge">₱1500/Night</div>
+        <img class="room-image" src="img/queenbedroom.jpg" alt="Queen Bed Room">
+        <div class="room-details">
+          <div class="room-title">Queen Bed Room</div>
+          <div class="room-info">Queen Bed &bull; 22 sqm &bull; Breakfast Included</div>
+          <a href="#" class="reserve-btn" data-roomtype="queen">Book Now</a>
+        </div>
+      </div>
+      <div class="room-card">
+        <div class="price-badge">₱2000/Night</div>
+        <img class="room-image" src="img/doublebedroom.jpg" alt="Double Bed Room">
+        <div class="room-details">
+          <div class="room-title">Double Bed Room</div>
+          <div class="room-info">Double Bed &bull; 28 sqm &bull; City View</div>
+          <a href="#" class="reserve-btn" data-roomtype="double">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reservation form page -->
+ <div class="reservation-container" id="reservation-page" style="display:none;">
+  <form class="reservation-form">
+    <div class="form-group">
+      <label for="name-reserve">Name</label>
+      <input type="text" id="name-reserve" name="name" required placeholder="Enter your name">
+    </div>
+    <!-- CHECK IN with icon -->
+    <div class="form-group icon-field">
+      <label for="checkin-reserve">Check in</label>
+      <div class="input-icon-wrapper">
+        <i class="fa-solid fa-calendar-days"></i>
+        <input type="date" id="checkin-reserve" name="checkin" required placeholder="mm/dd/yyyy">
+      </div>
+    </div>
+    <!-- CHECK OUT with icon -->
+    <div class="form-group icon-field">
+      <label for="checkout-reserve">Check out</label>
+      <div class="input-icon-wrapper">
+        <i class="fa-solid fa-calendar-days"></i>
+        <input type="date" id="checkout-reserve" name="checkout" required placeholder="mm/dd/yyyy">
+      </div>
+    </div>
+    <!-- GUESTS with icon -->
+    <div class="form-group icon-field">
+      <label for="guests-reserve">Guests</label>
+      <div class="input-icon-wrapper">
+        <i class="fa-solid fa-user-group"></i>
+        <select id="guests-reserve" name="guests" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+    </div>
+    <!-- ROOM with icon -->
+    <div class="form-group icon-field">
+      <label for="roomtype-reserve">Room</label>
+      <div class="input-icon-wrapper">
+        <i class="fa-solid fa-bed"></i>
+        <select id="roomtype-reserve" name="roomtype" required>
+          <option value="single">Single Bed Room</option>
+          <option value="queen">Queen Bed Room</option>
+          <option value="double">Double Bed Room</option>
+        </select>
+      </div>
+    </div>
+    <!-- PRICE with icon -->
+    <div class="form-group icon-field">
+      <label for="price-reserve">Price</label>
+      <div class="input-icon-wrapper">
+        <i class="fa-solid fa-tag"></i>
+        <div class="price-box" id="price-box-reserve">₱1500/Night</div>
+      </div>
+      <input type="hidden" id="price-reserve" name="price" readonly>
+    </div>
+    <button type="submit" class="reservation-btn">Reserve Now</button>
+  </form>
+</div>
+  <!-- Load Firestore logic for reservations -->
+  <script type="module" src="index.js"></script>
+</body>
+</html>
