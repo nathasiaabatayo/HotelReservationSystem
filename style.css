@@ -1,0 +1,394 @@
+:root {
+  --primary: #b5651d;
+  --secondary: #fff8f1;
+  --accent: #df9f51;
+  --accent-light: #f9d18a;
+  --card-bg: #f9d8a1;
+  --container-bg: #f9d18a;
+  --text: #222;
+  --muted: #f7ede4;
+  --radius: 32px;
+  --shadow: 0 8px 42px rgba(201, 122, 65, 0.13);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(120deg, #f9d8a1 0%, #c97a41 100%);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav {
+  background: none;
+  padding: 0;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav .logo,
+.logo {
+  display: block;
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: 800;
+  font-family: 'Georgia', serif;
+  letter-spacing: 3px;
+  color: var(--primary);
+  margin: 45px 0 30px 0;
+  text-shadow: 0 4px 16px #f8c76c44, 0 1px 0 #fff;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+nav ul li {
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--primary);
+  background: #fde9cb;
+  padding: 0.4em 1em;
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+  min-width: 120px;       /* ADDED for equal width */
+  text-align: center;     /* Center the text */
+}
+
+nav ul li:hover {
+  background: #fad59c;
+  color: #d1770a;
+}
+
+/* HEADER TITLE & SUBTITLE */
+.rooms-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+  letter-spacing: 1.5px;
+  font-family: 'Georgia', serif;
+  text-shadow: 0 2px 8px #f8c76c88;
+}
+
+.rooms-subtitle {
+  text-align: center;
+  font-size: 1.35rem;
+  color: #a77638;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+  font-family: 'Georgia', serif;
+}
+
+.rooms-divider {
+  width: 90px;
+  height: 4px;
+  background: #e8b46a;
+  border-radius: 3px;
+  margin: 0 auto 2.2rem auto;
+}
+
+/* MAIN CONTAINER */
+.container {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem 3.5rem 2rem;
+  background: var(--container-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 16px 64px #e6aa4930;
+}
+
+/* ROOMS LIST */
+.rooms-list {
+  display: flex;
+  gap: 2.4rem;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ROOM CARD - Modified to remove image shadows */
+.room-card {
+  background: var(--card-bg);
+  border-radius: 28px;
+  box-shadow: 0 6px 32px #e8b46a33, 0 0 0 2px #f8e0c0;
+  overflow: hidden;
+  min-width: 350px;
+  max-width: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+  transition: transform 0.18s, box-shadow 0.2s;
+  padding-top: 1.6rem;
+}
+
+.room-card:hover {
+  transform: translateY(-10px) scale(1.025);
+  box-shadow: 0 18px 48px #e5964288;
+}
+
+/* FIXED PRICE BADGE */
+.price-badge {
+  position: absolute;
+  top: 0; /* Stick to the very top of the card */
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #f9d8a1;
+  font-weight: bold;
+  font-size: 1.15rem;
+  padding: 0.5rem 1.6rem;
+  border-radius: 0 0 18px 18px; /* Rounded only at the bottom */
+  box-shadow: 0 2px 14px #e8b46a44;
+  letter-spacing: 1px;
+  border: none;
+  z-index: 5;
+  pointer-events: none;
+  width: max-content;
+  text-align: center;
+}
+
+/* ROOM IMAGE - Removed shadow and dark overlay */
+.room-image {
+  width: 100%;
+  height: 195px;
+  object-fit: cover;
+  display: block;
+  border-radius: 18px 18px 0 0;
+  z-index: 1;
+}
+
+/* ROOM DETAILS - Changed to solid background instead of gradient */
+.room-details {
+  width: 100%;
+  padding: 1.5rem 1.3rem 1.2rem 1.3rem;
+  background: rgba(255, 255, 255, 0.85);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 0 0 18px 18px;
+}
+
+.room-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 0.45rem;
+  letter-spacing: 1px;
+  font-family: 'Georgia', serif;
+}
+
+.room-desc,
+.room-info {
+  color: var(--text);
+  font-size: 1.08rem;
+  margin-bottom: 1.1rem;
+  font-weight: 500;
+}
+
+.reserve-btn {
+  background: #b5651d;
+  color: #fff;
+  border: none;
+  border-radius: 19px;
+  padding: 0.58rem 2.2rem;
+  font-size: 1.08rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 18px #b5651d44;
+  transition: background 0.17s, color 0.17s;
+  letter-spacing: 0.5px;
+  margin-top: 0.2rem;
+  align-self: center;
+}
+
+.reserve-btn:hover {
+  background: #914813;
+  color: #fffbe6;
+}
+
+/* --- Reservation Form Modern Style --- */
+.reservation-container {
+  max-width: 900px;
+  margin: 48px auto;
+  background:  #f9d8a1;
+  border-radius: 32px;
+  box-shadow: 0 16px 48px #e6aa4926;
+  padding: 2.8rem 2rem 2.8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reservation-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-group {
+  flex: 1 1 220px;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.reservation-form label {
+  font-size: 1.15rem;
+  color: var(--primary) !important;
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+  background: transparent;
+  display: block;
+}
+
+.reservation-form input[type="text"],
+.reservation-form input[type="date"],
+.reservation-form select,
+.reservation-form .price-box {
+  width: 100%;
+  padding: 1.15rem 1.15rem;
+  border: 2px solid #f9d18a;
+  border-radius: 18px;
+  font-size: 1.14rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #b5651d;
+  background: #fff;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+  box-shadow: none;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.reservation-form .price-box {
+  font-weight: 400;
+  pointer-events: none;
+}
+
+.reservation-form input[type="date"]::-webkit-input-placeholder { color: #bca16b; }
+.reservation-form input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(60%) sepia(30%) saturate(600%) hue-rotate(10deg);
+  opacity: 0.85;
+  cursor: pointer;
+  height: 26px;
+  width: 26px;
+}
+
+.reservation-form input::placeholder,
+.reservation-form select {
+  color: #b5651d;
+  opacity: 1;
+}
+
+.reservation-form input:focus,
+.reservation-form select:focus,
+.reservation-form .price-box:focus {
+  border-color: var(--accent);
+  background: #fffbe6;
+  box-shadow: 0 2px 8px #df9f5122;
+}
+
+.reservation-form input[readonly] {
+  background: #fff6e3;
+  color: #b5651d;
+  opacity: 1;
+  border: 2px solid #f9d18a;
+}
+
+/* Reserve Now Button - Modern & prominent */
+.reservation-form .reservation-btn,
+.reservation-btn {
+  width: 100%;
+  max-width: 260px;
+  background: linear-gradient(90deg, #f9d18a 20%, #df9f51 90%);
+  color: #fff;
+  font-size: 1.22rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-weight: bold;
+  border: none;
+  border-radius: 22px;
+  padding: 1.05rem 0;
+  cursor: pointer;
+  box-shadow: 0 4px 22px #f6e5c3a1;
+  transition: background 0.2s, color 0.2s, transform 0.12s;
+  letter-spacing: 0.5px;
+  margin: 1.5rem auto 0.2rem auto;
+  text-align: center;
+  display: block;
+}
+
+.reservation-form .reservation-btn:hover,
+.reservation-btn:hover,
+.reservation-form .reservation-btn:focus-visible {
+  background: linear-gradient(90deg, #df9f51 10%, #f9d18a 100%);
+  color: #fffbe6;
+  transform: translateY(-2px) scale(1.03);
+  outline: none;
+}
+
+/* Add icon styles for reservation form fields */
+.icon-field .input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-field .input-icon-wrapper i {
+  position: absolute;
+  left: 18px;
+  color: #b5651d;
+  font-size: 1.2rem;
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 2;
+}
+
+.icon-field select,
+.icon-field .price-box,
+.icon-field input[type="date"] {
+  padding-left: 2.3em !important; /* Make room for the icon */
+}
+
+.icon-field .price-box {
+  display: block;
+  align-items: center;
+  min-height: 48px;
+}
+
+/* Responsive improvement */
+@media (max-width: 900px) {
+  .reservation-container {
+    max-width: 99vw;
+  }
+  .reservation-form {
+    flex-direction: column;
+  }
+  .form-group {
+    min-width: 100px;
+  }
+  .icon-field .input-icon-wrapper i {
+    left: 10px;
+  }
+}
