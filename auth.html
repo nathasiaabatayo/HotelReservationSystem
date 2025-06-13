@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    // Force redirect to loading.html if not from loading page
+    if (!sessionStorage.getItem('fromLoading')) {
+      window.location.replace('loading.html');
+    }
+    sessionStorage.removeItem('fromLoading');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Easy Stay | Login / Sign Up</title>
+  <link rel="stylesheet" href="auth.css" />
+  <!-- Font Awesome for eye icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+</head>
+<body>
+  <div class="auth-bg">
+    <div class="auth-main">
+      <h1 class="auth-title">Easy Stay</h1>
+      <p class="auth-subtitle">Hotel Reservation System</p>
+      <div class="auth-card" id="login-form">
+        <form id="loginForm">
+          <input type="email" id="login-email" required placeholder="Email" />
+          <div class="password-wrapper">
+            <input type="password" id="login-password" required placeholder="Password" />
+            <span class="toggle-password" toggle="#login-password">
+              <i class="fa-regular fa-eye"></i>
+            </span>
+          </div>
+          <button type="submit" class="auth-btn">Log In</button>
+        </form>
+        <div class="auth-switch">
+          Don't have an account?
+          <a href="#" onclick="showSignup(event)">Sign Up</a>
+        </div>
+      </div>
+      <div class="auth-card" id="signup-form" style="display:none;">
+        <form id="signupForm">
+          <input type="text" id="signup-name" required placeholder="Full Name" />
+          <input type="email" id="signup-email" required placeholder="Email" />
+          <div class="password-wrapper">
+            <input type="password" id="signup-password" required placeholder="Password" />
+            <span class="toggle-password" toggle="#signup-password">
+              <i class="fa-regular fa-eye"></i>
+            </span>
+          </div>
+          <button type="submit" class="auth-btn">Sign Up</button>
+        </form>
+        <div class="auth-switch">
+          Already have an account?
+          <a href="#" onclick="showLogin(event)">Log In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { firebaseConfig } from './firebase-config.js';
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.showSignup = function(e) {
+      e.preventDefault();
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('signup-form').style.display = 'block';
+    }
+    window.showLogin = function(e) {
+      e.preventDefault();
+      document.getElementById('signup-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // Set session flag so index.html knows we came from auth.html
+        sessionStorage.setItem('fromAuth', 'yes');
+        window.location.href = 'index.html';
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const name = document.getElementById('signup-name').value;
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCred.user, { displayName: name });
+        alert('Sign up successful! Please log in.');
+        showLogin(e);
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // Password show/hide toggle logic
+    document.querySelectorAll('.toggle-password').forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        const input = document.querySelector(this.getAttribute('toggle'));
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
