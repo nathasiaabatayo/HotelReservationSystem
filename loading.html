@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loading | Easy Stay Hotel Reservation</title>
+  <link rel="stylesheet" href="loading.css" />
+</head>
+<body>
+  <div class="loader-bg">
+    <div class="loader-card">
+      <div class="loader-logo">
+        <span>🛎️</span>
+      </div>
+      <h1 class="loader-title">Easy Stay</h1>
+      <div class="loader-animation">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <p class="loader-text">Hotel Reservation System</p>
+      <button class="loader-continue-btn" id="continue-btn" type="button">Continue</button>
+    </div>
+  </div>
+  <script>
+    // Set a session flag and go to auth.html on button click
+    document.getElementById('continue-btn').addEventListener('click', function() {
+      sessionStorage.setItem('fromLoading', 'yes');
+      window.location.href = "auth.html";
+    });
+  </script>
+</body>
+</html>
